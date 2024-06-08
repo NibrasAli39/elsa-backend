@@ -1,0 +1,46 @@
+const { gql } = require('apollo-server-express');
+
+const typeDefs = gql`
+  type User {
+    userId: String!
+    username: String!
+  }
+
+  type Session {
+    sessionId: String!
+    quizId: String!
+    participants: [Participant!]!
+    scores: [Score!]!
+  }
+
+  type Participant {
+    id: String!
+    userId: String!
+    sessionId: String!
+    score: Int!
+  }
+
+  type Mcq {
+    id: String!
+    question: String!
+    options: [String!]!
+    correctAnswer: String!
+  }
+
+  type Query {
+    me: User
+    sessions: [Session!]!
+    session(sessionId: String!): Session
+    mcqs: [Mcq!]!
+  }
+
+  type Mutation {
+    register(username: String!, password: String!): String
+    login(username: String!, password: String!): String
+    createSession(quizId: String!): Session
+    joinSession(sessionId: String!): Session
+    submitAnswer(sessionId: String!, answer: String!): Session
+  }
+`;
+
+module.exports = typeDefs;
